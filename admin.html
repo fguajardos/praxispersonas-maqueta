@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PraxisPersonas - Portal Administracion</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+
+    <!-- ===== SIDEBAR ===== -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-logo">
+            <div class="sidebar-logo-icon"><i class="fas fa-users"></i></div>
+            <span class="sidebar-logo-text">PraxisPersonas</span>
+        </div>
+        <nav class="sidebar-nav">
+            <a href="#" class="sidebar-link active" data-page="dashboard" onclick="navigateTo('dashboard')">
+                <i class="fas fa-th-large"></i><span>Dashboard</span>
+            </a>
+            <a href="#" class="sidebar-link" data-page="oportunidades" onclick="navigateTo('oportunidades')">
+                <i class="fas fa-bullhorn"></i><span>Oportunidades de trabajo</span>
+            </a>
+            <a href="#" class="sidebar-link" data-page="motor" onclick="navigateTo('motor')">
+                <i class="fas fa-search"></i><span>Motor de Busqueda</span>
+            </a>
+            <div class="sidebar-section">
+                <a href="#" class="sidebar-link has-sub" onclick="toggleSubmenu(this)">
+                    <i class="fas fa-file-alt"></i><span>Informes</span><i class="fas fa-chevron-down sub-arrow"></i>
+                </a>
+                <div class="sidebar-submenu">
+                    <a href="#" class="sidebar-sublink" data-page="trazabilidad" onclick="navigateTo('trazabilidad')">Trazabilidad</a>
+                    <a href="#" class="sidebar-sublink" data-page="informes-ot" onclick="navigateTo('informes-ot')">Oportunidades de Trabajo</a>
+                </div>
+            </div>
+        </nav>
+    </aside>
+
+    <!-- ===== MAIN WRAPPER ===== -->
+    <div class="main-wrapper">
+        <!-- Header -->
+        <header class="admin-header">
+            <div class="header-left">
+                <button class="sidebar-toggle" onclick="toggleSidebar()"><i class="fas fa-bars"></i></button>
+                <div class="company-selector">
+                    <select class="form-select form-select-sm">
+                        <option>Netlan</option>
+                    </select>
+                    <button class="btn btn-sm btn-primary">Seleccionar</button>
+                </div>
+            </div>
+            <div class="header-right">
+                <a href="#" class="header-link"><i class="fas fa-book"></i> Instrucciones</a>
+                <a href="#" class="header-link"><i class="fas fa-file-alt"></i> Terminos y Condiciones</a>
+                <div class="header-user">
+                    <div class="header-avatar">IC</div>
+                    <span>ignacio.calderon237@gmail.com</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Content -->
+        <div class="admin-content">
+
+            <!-- ========== DASHBOARD ========== -->
+            <div class="page active" id="page-dashboard">
+                <div class="page-header">
+                    <h5>DASHBOARD</h5>
+                    <nav class="breadcrumb-nav">Dashboard &gt; Indicadores</nav>
+                </div>
+
+                <div class="row g-3 mb-4">
+                    <div class="col-md-3"><div class="kpi-card"><span class="kpi-label">Oportunidades de Trabajo</span><span class="kpi-value">1</span><i class="fas fa-layer-group kpi-icon"></i></div></div>
+                    <div class="col-md-3"><div class="kpi-card"><span class="kpi-label">Postulaciones</span><span class="kpi-value">3</span><i class="fas fa-layer-group kpi-icon" style="color:#f59e0b"></i></div></div>
+                    <div class="col-md-3"><div class="kpi-card"><span class="kpi-label">Procesos Abiertos</span><span class="kpi-value">1</span><i class="fas fa-layer-group kpi-icon" style="color:#10b981"></i></div></div>
+                    <div class="col-md-3"><div class="kpi-card"><span class="kpi-label">Procesos Cerrados</span><span class="kpi-value">0</span><i class="fas fa-layer-group kpi-icon" style="color:#6366f1"></i></div></div>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label small fw-bold">Oportunidad de Trabajo:</label>
+                    <select class="form-select"><option>Todas</option><option>Tecnico en instalaciones electricas</option></select>
+                </div>
+
+                <div class="row g-3 mb-4">
+                    <div class="col-md-6">
+                        <div class="card-panel">
+                            <h6 class="panel-title">Candidatos por Etapa (Postulaciones)</h6>
+                            <canvas id="chart-etapas" height="220"></canvas>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card-panel">
+                            <h6 class="panel-title">Tiempos por Etapa (Oportunidades de Trabajo)</h6>
+                            <canvas id="chart-tiempos" height="220"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row g-3 mb-3">
+                    <div class="col"><div class="stat-card"><span class="stat-label">Candidatos en Pre-seleccion</span><span class="stat-value">184</span></div></div>
+                    <div class="col"><div class="stat-card"><span class="stat-label">Candidatos en Valorados</span><span class="stat-value">54</span></div></div>
+                    <div class="col"><div class="stat-card"><span class="stat-label">Candidatos en Valoracion Cliente</span><span class="stat-value">15</span></div></div>
+                    <div class="col"><div class="stat-card"><span class="stat-label">Candidatos en Terna</span><span class="stat-value">1</span></div></div>
+                    <div class="col"><div class="stat-card"><span class="stat-label">Candidatos en Seleccionado</span><span class="stat-value">15</span></div></div>
+                </div>
+                <div class="row g-3">
+                    <div class="col"><div class="stat-card time"><span class="stat-label">Candidatos en Reclutamiento</span><span class="stat-value">7350 dias</span></div></div>
+                    <div class="col"><div class="stat-card time"><span class="stat-label">Candidatos en Long List</span><span class="stat-value">4857 dias</span></div></div>
+                    <div class="col"><div class="stat-card time"><span class="stat-label">Candidatos en Valoracion / Presentacion</span><span class="stat-value">4731 dias</span></div></div>
+                    <div class="col"><div class="stat-card time"><span class="stat-label">Candidatos en Entrevista Cliente</span><span class="stat-value">5943 dias</span></div></div>
+                    <div class="col"><div class="stat-card time"><span class="stat-label">Candidatos en Carta de Oferta</span><span class="stat-value">1917 dias</span></div></div>
+                </div>
+            </div>
+
+            <!-- ========== OPORTUNIDADES DE TRABAJO ========== -->
+            <div class="page" id="page-oportunidades">
+                <div class="page-header">
+                    <h5>OPORTUNIDADES DE TRABAJO</h5>
+                    <nav class="breadcrumb-nav">Oportunidades de Trabajo &gt; Listado</nav>
+                </div>
+                <div class="kanban-board">
+                    <div class="kanban-column">
+                        <div class="kanban-header">Reclutamiento<br><small>1 Oportunidades de Trabajo</small></div>
+                        <div class="kanban-card" onclick="navigateTo('postulantes')">
+                            <div class="kanban-card-bar"></div>
+                            <strong>Tecnico en instalaciones electricas</strong>
+                            <small class="text-muted d-block">24-03-2026</small>
+                            <button class="btn btn-sm btn-primary mt-2" onclick="event.stopPropagation(); navigateTo('postulantes')"><i class="fas fa-users"></i> Postulantes</button>
+                        </div>
+                    </div>
+                    <div class="kanban-column"><div class="kanban-header">Long List<br><small>0 Oportunidades de Trabajo</small></div></div>
+                    <div class="kanban-column"><div class="kanban-header">Valoracion / Presentacion de Resultados<br><small>0 Oportunidades de Trabajo</small></div></div>
+                    <div class="kanban-column"><div class="kanban-header">Entrevista Cliente<br><small>0 Oportunidades de Trabajo</small></div></div>
+                    <div class="kanban-column"><div class="kanban-header">Carta de Oferta<br><small>0 Oportunidades de Trabajo</small></div></div>
+                </div>
+            </div>
+
+            <!-- ========== POSTULANTES ========== -->
+            <div class="page" id="page-postulantes">
+                <div class="page-header">
+                    <h5>POSTULACIONES</h5>
+                    <nav class="breadcrumb-nav">Postulaciones &gt; Listado</nav>
+                </div>
+                <div class="mb-3">
+                    <button class="btn btn-sm btn-primary" onclick="navigateTo('oportunidades')"><i class="fas fa-home"></i> Volver</button>
+                    <button class="btn btn-sm btn-purple"><i class="fas fa-chart-bar"></i> Resumen Valoraciones</button>
+                    <button class="btn btn-sm btn-dark"><i class="fas fa-info-circle"></i> Descripcion</button>
+                </div>
+                <h6 class="text-center mb-3">POSTULACIONES: Tecnico en instalaciones electricas</h6>
+
+                <ul class="nav nav-tabs mb-3">
+                    <li class="nav-item"><a class="nav-link active" href="#">Pre-seleccion</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Valorados</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Valoracion Cliente</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Terna</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Seleccionado</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Eliminados</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Incompletas</a></li>
+                </ul>
+
+                <div class="mb-2">
+                    <button class="btn btn-sm btn-outline-secondary">Excel</button>
+                    <button class="btn btn-sm btn-outline-secondary">Columnas</button>
+                    <button class="btn btn-sm btn-outline-secondary">PDF</button>
+                    <button class="btn btn-sm btn-success"><i class="fas fa-eye"></i> Resumen</button>
+                    <input type="text" class="form-control form-control-sm d-inline-block float-end" style="width:200px" placeholder="Search:">
+                </div>
+
+                <table class="table table-bordered table-hover">
+                    <thead class="table-light">
+                        <tr><th><input type="checkbox"></th><th>Nombre</th><th>Fecha</th><th>Comuna</th><th>Pretension</th><th>Revisado</th><th>Acciones</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><input type="checkbox"></td>
+                            <td>Francisco Guajardo Sempertegui</td>
+                            <td>26-03-2026</td>
+                            <td>Lo Barnechea</td>
+                            <td>$2.200.000</td>
+                            <td><span class="badge bg-danger"><i class="fas fa-times"></i></span></td>
+                            <td>
+                                <button class="btn btn-sm btn-purple" onclick="navigateTo('detalle')"><i class="fas fa-file-alt"></i> Ver detalle</button>
+                                <button class="btn btn-sm btn-success"><i class="fas fa-exchange-alt"></i> Cambiar Etapa</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox"></td>
+                            <td>Pablo Picapiedra</td>
+                            <td>25-03-2026</td>
+                            <td>Camarones</td>
+                            <td>$800.000</td>
+                            <td><span class="badge bg-danger"><i class="fas fa-times"></i></span></td>
+                            <td>
+                                <button class="btn btn-sm btn-purple" onclick="navigateTo('detalle')"><i class="fas fa-file-alt"></i> Ver detalle</button>
+                                <button class="btn btn-sm btn-success"><i class="fas fa-exchange-alt"></i> Cambiar Etapa</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- ========== DETALLE POSTULANTE ========== -->
+            <div class="page" id="page-detalle">
+                <div class="page-header">
+                    <h5>POSTULACIONES</h5>
+                    <nav class="breadcrumb-nav">Postulantes &gt; Informacion</nav>
+                </div>
+                <div class="mb-3">
+                    <button class="btn btn-sm btn-primary" onclick="navigateTo('postulantes')"><i class="fas fa-home"></i> Volver</button>
+                    <button class="btn btn-sm btn-warning text-white"><i class="fas fa-exchange-alt"></i> Cambiar Etapa</button>
+                    <button class="btn btn-sm btn-success"><i class="fas fa-check"></i> Marcar como Revisado</button>
+                </div>
+
+                <div class="text-center mb-3">
+                    <h5 class="mb-0">Francisco Guajardo Sempertegui</h5>
+                    <span class="text-muted">Tecnico en instalaciones electricas - Netlan</span>
+                </div>
+
+                <ul class="nav nav-tabs mb-4" id="detalleTabs">
+                    <li class="nav-item"><a class="nav-link active" href="#" onclick="showDetalleTab('resumen')">Resumen</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#" onclick="showDetalleTab('info-adicional')">Informacion adicional</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#" onclick="showDetalleTab('antecedentes-lab')">Antecedentes laborales</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#" onclick="showDetalleTab('antecedentes-aca')">Antecedentes academicos</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#" onclick="showDetalleTab('respuestas')">Respuestas</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#" onclick="showDetalleTab('tests')">Tests</a></li>
+                </ul>
+
+                <!-- Tab: Resumen -->
+                <div class="detalle-tab active" id="tab-resumen">
+                    <table class="table">
+                        <tr><td class="fw-bold" style="width:200px">Nombre:</td><td class="text-end">Francisco Guajardo Sempertegui</td></tr>
+                        <tr><td class="fw-bold">Correo:</td><td class="text-end">fj.guajardos@gmail.com</td></tr>
+                        <tr><td class="fw-bold">Telefono:</td><td class="text-end">974921807</td></tr>
+                        <tr><td class="fw-bold">CV:</td><td class="text-end"><a href="#">CV_Francisco_Guajardo.pdf</a></td></tr>
+                    </table>
+                </div>
+
+                <!-- Tab: Info adicional -->
+                <div class="detalle-tab" id="tab-info-adicional">
+                    <table class="table">
+                        <tr><td class="fw-bold" style="width:200px">Motivacion:</td><td class="text-end">Me motiva poder tomar nuevos desafios, para poder aplicar los conocimientos que tengo para mejorar los procesos en la organizacion</td></tr>
+                        <tr><td class="fw-bold">Pretension de Renta:</td><td class="text-end">$2.200.000</td></tr>
+                        <tr><td class="fw-bold">Disponibilidad:</td><td class="text-end">Inmediata</td></tr>
+                        <tr><td class="fw-bold">Comuna:</td><td class="text-end">Lo Barnechea</td></tr>
+                        <tr><td class="fw-bold">Genero:</td><td class="text-end">Hombre</td></tr>
+                        <tr><td class="fw-bold">Fecha de nacimiento:</td><td class="text-end">08-11-1995</td></tr>
+                    </table>
+                </div>
+
+                <!-- Tab: Antecedentes laborales -->
+                <div class="detalle-tab" id="tab-antecedentes-lab">
+                    <table class="table table-bordered">
+                        <thead class="table-light"><tr><th>Empresa</th><th>Cargo</th><th>Inicio</th><th>Fin</th><th>Motivo</th></tr></thead>
+                        <tbody>
+                            <tr><td>NCG Servicios</td><td>Analista Senior Controller</td><td>01-07-2025</td><td>A la fecha</td><td>A la fecha</td></tr>
+                            <tr><td>USACH</td><td>Desarrollador de Proyecto de IA</td><td>01-01-2025</td><td>01-07-2025</td><td>Cambio de Cargo</td></tr>
+                            <tr><td>Stefanini Group</td><td>Ingeniero de Operaciones</td><td>01-06-2024</td><td>01-01-2025</td><td>Renuncia voluntaria</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Tab: Antecedentes academicos -->
+                <div class="detalle-tab" id="tab-antecedentes-aca">
+                    <table class="table table-bordered">
+                        <thead class="table-light"><tr><th>Formacion</th><th>Institucion</th><th>Ingreso</th><th>Egreso</th></tr></thead>
+                        <tbody>
+                            <tr><td>Ingenieria Civil Industrial</td><td>USACH</td><td>2024</td><td>2027 (En curso)</td></tr>
+                            <tr><td>Ing. en Administracion de Empresas</td><td>Duoc UC</td><td>2014</td><td>2018</td></tr>
+                            <tr><td>Minor en Ciencia de Datos Avanzado</td><td>USACH</td><td>2024</td><td>2026</td></tr>
+                            <tr><td>Diplomado en Inteligencia de Negocios</td><td>PUC</td><td>2021</td><td>2022</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Tab: Respuestas -->
+                <div class="detalle-tab" id="tab-respuestas">
+                    <p class="text-muted">Aqui se muestran las respuestas a preguntas adicionales del proceso (video, texto, etc.)</p>
+                </div>
+
+                <!-- Tab: Tests -->
+                <div class="detalle-tab" id="tab-tests">
+                    <h5 class="text-center mb-4">Analisis</h5>
+                    <div class="row mb-4">
+                        <div class="col-md-6">
+                            <h6 class="text-center mb-3">Datos de la Postulacion</h6>
+                            <table class="table table-bordered">
+                                <tr><td class="fw-bold">Postulante</td><td>Francisco Guajardo Sempertegui</td></tr>
+                                <tr><td class="fw-bold">Oportunidad de Trabajo</td><td>Tecnico en instalaciones electricas</td></tr>
+                                <tr><td class="fw-bold">Fecha de Postulacion</td><td>26-03-2026</td></tr>
+                                <tr><td class="fw-bold">Etapa</td><td>Pre-seleccion</td></tr>
+                            </table>
+                        </div>
+                        <div class="col-md-6">
+                            <h6 class="text-center mb-3">Generar resumen con Inteligencia Artificial <small class="text-muted">(Seleccione al menos 1 opcion)</small></h6>
+                            <div class="ai-test-checkboxes">
+                                <div class="form-check"><input class="form-check-input" type="checkbox" id="chk-disc" checked><label class="form-check-label" for="chk-disc">DISC</label></div>
+                                <div class="form-check"><input class="form-check-input" type="checkbox" id="chk-barrat" checked><label class="form-check-label" for="chk-barrat">BARRAT</label></div>
+                                <div class="form-check"><input class="form-check-input" type="checkbox" id="chk-valanti" checked><label class="form-check-label" for="chk-valanti">VALANTI</label></div>
+                                <div class="form-check"><input class="form-check-input" type="checkbox" id="chk-liderazgo" checked><label class="form-check-label" for="chk-liderazgo">LIDERAZGO SITUACIONAL</label></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h5 class="text-center mb-3">Resultados</h5>
+                    <ul class="nav nav-tabs mb-3" id="testResultsTabs">
+                        <li class="nav-item"><a class="nav-link active" href="#" onclick="showTestResultTab('ia-summary')">Resumen Inteligencia Artificial</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#" onclick="showTestResultTab('disc-result')">DISC</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#" onclick="showTestResultTab('barrat-result')">BARRAT</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#" onclick="showTestResultTab('valanti-result')">VALANTI</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#" onclick="showTestResultTab('liderazgo-result')">LIDERAZGO SITUACIONAL</a></li>
+                    </ul>
+
+                    <!-- Sub-tab: Resumen IA -->
+                    <div class="test-result-tab active" id="tab-ia-summary">
+                        <h6 class="text-center mb-3">Reporte generado con asistencia de IA</h6>
+                        <button class="btn btn-dark mb-3" onclick="generateAIReport()">Generar</button>
+                        <p class="text-muted small">Aca puedes generar un reporte consolidado de los test del candidato con apoyo de IA. Es un espacio editable, por lo que puedes escribir tus observaciones.</p>
+                        <div class="ai-report-area" id="ai-report-area" contenteditable="true">
+                            <p class="text-muted fst-italic">Haz clic en "Generar" para crear el reporte con IA...</p>
+                        </div>
+                    </div>
+
+                    <!-- Sub-tab: DISC -->
+                    <div class="test-result-tab" id="tab-disc-result">
+                        <h6 class="text-center mb-3">Resultados Test DISC</h6>
+                        <div class="row g-3 mb-4">
+                            <div class="col-md-3"><div class="score-box" style="border-top:4px solid #e74c3c"><div class="score-label">D - Dominancia</div><div class="score-value" style="color:#e74c3c">8</div></div></div>
+                            <div class="col-md-3"><div class="score-box" style="border-top:4px solid #f59e0b"><div class="score-label">I - Influencia</div><div class="score-value" style="color:#f59e0b">5</div></div></div>
+                            <div class="col-md-3"><div class="score-box" style="border-top:4px solid #10b981"><div class="score-label">S - Estabilidad</div><div class="score-value" style="color:#10b981">10</div></div></div>
+                            <div class="col-md-3"><div class="score-box" style="border-top:4px solid #6366f1"><div class="score-label">C - Cumplimiento</div><div class="score-value" style="color:#6366f1">5</div></div></div>
+                        </div>
+                        <div class="chart-container"><canvas id="chart-disc-admin" height="250"></canvas></div>
+                    </div>
+
+                    <!-- Sub-tab: BARRAT -->
+                    <div class="test-result-tab" id="tab-barrat-result">
+                        <h6 class="text-center mb-3">Resultados Test BARRAT</h6>
+                        <div class="row g-3 mb-3">
+                            <div class="col-md-4"><div class="score-box" style="border-top:4px solid #e74c3c"><div class="score-label">Impulsividad Cognitiva</div><div class="score-value" style="color:#e74c3c">12</div></div></div>
+                            <div class="col-md-4"><div class="score-box" style="border-top:4px solid #f59e0b"><div class="score-label">Impulsividad Motora</div><div class="score-value" style="color:#f59e0b">18</div></div></div>
+                            <div class="col-md-4"><div class="score-box" style="border-top:4px solid #6366f1"><div class="score-label">Impulsividad No Planificada</div><div class="score-value" style="color:#6366f1">15</div></div></div>
+                        </div>
+                    </div>
+
+                    <!-- Sub-tab: VALANTI -->
+                    <div class="test-result-tab" id="tab-valanti-result">
+                        <h6 class="text-center mb-3">Resultados Test VALANTI</h6>
+                        <div class="row g-3 mb-3">
+                            <div class="col-md-3"><div class="score-box" style="border-top:4px solid #10b981"><div class="score-label">Valores</div><div class="score-value" style="color:#10b981">72</div></div></div>
+                            <div class="col-md-3"><div class="score-box" style="border-top:4px solid #e74c3c"><div class="score-label">Antivalores</div><div class="score-value" style="color:#e74c3c">28</div></div></div>
+                            <div class="col-md-3"><div class="score-box" style="border-top:4px solid #6366f1"><div class="score-label">Indice Etico</div><div class="score-value" style="color:#6366f1">Alto</div></div></div>
+                            <div class="col-md-3"><div class="score-box" style="border-top:4px solid #f59e0b"><div class="score-label">Consistencia</div><div class="score-value" style="color:#f59e0b">85%</div></div></div>
+                        </div>
+                    </div>
+
+                    <!-- Sub-tab: LIDERAZGO -->
+                    <div class="test-result-tab" id="tab-liderazgo-result">
+                        <h6 class="text-center mb-3">Resultados Test Liderazgo Situacional</h6>
+                        <div class="row g-3 mb-4">
+                            <div class="col-md-3"><div class="score-box" style="border-top:4px solid #e74c3c"><div class="score-label">E1 - Dirigir</div><div class="score-value" style="color:#e74c3c">2</div></div></div>
+                            <div class="col-md-3"><div class="score-box" style="border-top:4px solid #f59e0b"><div class="score-label">E2 - Instruir</div><div class="score-value" style="color:#f59e0b">4</div></div></div>
+                            <div class="col-md-3"><div class="score-box" style="border-top:4px solid #10b981"><div class="score-label">E3 - Apoyar</div><div class="score-value" style="color:#10b981">3</div></div></div>
+                            <div class="col-md-3"><div class="score-box" style="border-top:4px solid #3498db"><div class="score-label">E4 - Delegar</div><div class="score-value" style="color:#3498db">3</div></div></div>
+                        </div>
+                        <div class="chart-container"><canvas id="chart-liderazgo-admin" height="250"></canvas></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ========== MOTOR DE BUSQUEDA ========== -->
+            <div class="page" id="page-motor">
+                <div class="page-header">
+                    <h5>CANDIDATOS</h5>
+                    <nav class="breadcrumb-nav">Candidatos &gt; Listado</nav>
+                </div>
+                <button class="btn btn-sm btn-primary mb-3"><i class="fas fa-home"></i> Volver</button>
+
+                <h6 class="text-center mb-3">MOTOR DE BUSQUEDA</h6>
+                <div class="row g-3 mb-3">
+                    <div class="col-md-3"><label class="form-label small">Comuna:</label><select class="form-select form-select-sm"><option>Todos</option></select></div>
+                    <div class="col-md-2"><label class="form-label small">Pretensiones:</label><input class="form-control form-control-sm" placeholder="Desde"></div>
+                    <div class="col-md-2"><input class="form-control form-control-sm mt-4" placeholder="Hasta"></div>
+                    <div class="col-md-2"><label class="form-label small">Empresa:</label><input class="form-control form-control-sm" placeholder="Empresa"></div>
+                    <div class="col-md-3"><label class="form-label small">Profesion:</label><input class="form-control form-control-sm" placeholder="Cargos del Candidato"></div>
+                </div>
+                <div class="mb-4">
+                    <label class="form-label small">Palabras Claves: <small class="text-muted">(Puede separar con coma)</small></label>
+                    <input class="form-control form-control-sm" placeholder="Palabras Claves">
+                </div>
+
+                <h6 class="text-center mb-2">CANDIDATOS</h6>
+                <div class="mb-2">
+                    <button class="btn btn-sm btn-outline-secondary">Excel</button>
+                    <button class="btn btn-sm btn-outline-secondary">CSV</button>
+                    <button class="btn btn-sm btn-outline-secondary">PDF</button>
+                    <input type="text" class="form-control form-control-sm d-inline-block float-end" style="width:200px" placeholder="Search:">
+                </div>
+                <table class="table table-bordered table-hover">
+                    <thead class="table-light"><tr><th>Nombre</th><th>Telefono</th><th>Correo</th><th>Pretension</th><th>Acciones</th></tr></thead>
+                    <tbody>
+                        <tr><td>Francisco Guajardo Sempertegui</td><td>974921807</td><td>fj.guajardos@gmail.com</td><td>$2.200.000</td><td><button class="btn btn-sm btn-success"><i class="fas fa-eye"></i> Ver detalle</button> <button class="btn btn-sm btn-purple"><i class="fas fa-download"></i> CV</button></td></tr>
+                        <tr><td>Dick Gary Latorraca Jara</td><td>988341738</td><td>latorracagary@gmail.com</td><td>$1.200.000</td><td><button class="btn btn-sm btn-success"><i class="fas fa-eye"></i> Ver detalle</button> <button class="btn btn-sm btn-purple"><i class="fas fa-download"></i> CV</button></td></tr>
+                        <tr><td>Elvis Agustin Suarez San Martin</td><td>956255482</td><td>esuarez.sanmartin@gmail.com</td><td>$1.100.000</td><td><button class="btn btn-sm btn-success"><i class="fas fa-eye"></i> Ver detalle</button> <button class="btn btn-sm btn-purple"><i class="fas fa-download"></i> CV</button></td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- ========== TRAZABILIDAD ========== -->
+            <div class="page" id="page-trazabilidad">
+                <div class="page-header">
+                    <h5>TRAZABILIDAD</h5>
+                    <nav class="breadcrumb-nav">Trazabilidad &gt; Informe</nav>
+                </div>
+                <button class="btn btn-sm btn-primary mb-3"><i class="fas fa-home"></i> Volver</button>
+                <h6 class="text-center mb-3">Informe de Trazabilidad</h6>
+                <ul class="nav nav-tabs mb-3">
+                    <li class="nav-item"><a class="nav-link active" href="#">Oportunidades de Trabajo</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Postulaciones</a></li>
+                </ul>
+                <div class="mb-2">
+                    <button class="btn btn-sm btn-outline-secondary">Copiar</button>
+                    <button class="btn btn-sm btn-outline-secondary">Excel</button>
+                    <button class="btn btn-sm btn-outline-secondary">PDF</button>
+                    <button class="btn btn-sm btn-outline-secondary">Columnas</button>
+                </div>
+                <table class="table table-bordered table-hover table-sm">
+                    <thead class="table-light"><tr><th>Empresa</th><th>Oportunidad</th><th>Etapa</th><th>Comentario</th><th>Usuario</th><th>Fecha Inicio</th><th>Fecha Termino</th></tr></thead>
+                    <tbody>
+                        <tr><td>Netlan</td><td>Tecnico en inst. electricas</td><td>Reclutamiento</td><td>Creacion de OT</td><td>brios@praxispersonas.cl</td><td>02-12-2024</td><td>11-12-2024</td></tr>
+                        <tr><td>Netlan</td><td>Tecnico en inst. electricas</td><td>Reclutamiento</td><td>Cambio de etapa</td><td>butreras@praxispersonas.cl</td><td>02-12-2024</td><td>24-03-2026</td></tr>
+                        <tr><td>Netlan</td><td>Tecnico en inst. electricas</td><td>Reclutamiento</td><td>Cambio de etapa</td><td>Rodrigo</td><td>02-12-2024</td><td>--</td></tr>
+                        <tr><td>Netlan</td><td>Tecnico en inst. electricas</td><td>Reclutamiento</td><td>Creacion de OT</td><td>Rodrigo</td><td>24-03-2026</td><td>--</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- ========== INFORMES OT ========== -->
+            <div class="page" id="page-informes-ot">
+                <div class="page-header">
+                    <h5>INFORMES</h5>
+                    <nav class="breadcrumb-nav">Oportunidades de Trabajo &gt; Listado</nav>
+                </div>
+                <h6 class="text-center mb-3">OPORTUNIDADES DE TRABAJO</h6>
+                <div class="mb-2">
+                    <button class="btn btn-sm btn-outline-secondary">Excel</button>
+                    <button class="btn btn-sm btn-outline-secondary">CSV</button>
+                    <button class="btn btn-sm btn-outline-secondary">PDF</button>
+                </div>
+                <table class="table table-bordered table-hover">
+                    <thead class="table-light"><tr><th>Empresa</th><th>Nombre</th><th>Usuario</th><th>Visibilidad</th><th>Fecha Creacion</th><th>Etapa</th><th>Estado</th></tr></thead>
+                    <tbody>
+                        <tr><td>Netlan</td><td>Tecnico en instalaciones electricas</td><td>Rodrigo</td><td>Privado</td><td>24-03-2026</td><td>Reclutamiento</td><td><span class="badge bg-success">Abierto</span></td></tr>
+                        <tr><td>Netlan</td><td>Tecnico en instalaciones electricas</td><td>brios@praxispersonas.cl</td><td>Publico</td><td>02-12-2024</td><td>Reclutamiento</td><td><span class="badge bg-secondary">Finalizado</span></td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </div><!-- /admin-content -->
+    </div><!-- /main-wrapper -->
+
+    <footer class="admin-footer">
+        <span>2026 &copy; Praxis.</span>
+        <span>Desarrollado con <i class="fas fa-heart text-danger"></i> por ISIAC</span>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="admin.js"></script>
+</body>
+</html>
