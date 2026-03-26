@@ -11,7 +11,7 @@
 //   'local'   - Sin API, usa parser regex (menos preciso)
 const CV_PARSER_CONFIG = {
     PROVIDER: 'groq',
-    API_KEY: '',  // Configurar en la interfaz o pegar aqui tu key de Groq (https://console.groq.com/keys)
+    API_KEY: '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',
 
     // Modelos por proveedor (no modificar a menos que sepas lo que haces)
     MODELS: {
