@@ -208,8 +208,87 @@ El tono debe ser profesional, objetivo y constructivo. Escribe en parrafos fluid
     }
 }
 
+// ---- LOGIN / LOGOUT ----
+function handleLogin() {
+    const email = document.getElementById('login-email').value.trim();
+    const password = document.getElementById('login-password').value;
+    const errorEl = document.getElementById('login-error');
+
+    if (!email || !password) {
+        errorEl.textContent = 'Ingresa tu correo y contrasena.';
+        errorEl.classList.remove('d-none');
+        return;
+    }
+
+    // Simulacion de validacion (en produccion seria una llamada API)
+    if (password.length < 3) {
+        errorEl.textContent = 'Contrasena incorrecta. Intenta de nuevo.';
+        errorEl.classList.remove('d-none');
+        return;
+    }
+
+    errorEl.classList.add('d-none');
+
+    // Actualizar header con datos del usuario
+    const initials = email.split('@')[0].substring(0, 2).toUpperCase();
+    document.getElementById('header-avatar').textContent = initials;
+    document.getElementById('header-username').textContent = email;
+
+    // Guardar sesion
+    sessionStorage.setItem('pp_logged_in', 'true');
+    sessionStorage.setItem('pp_user_email', email);
+
+    // Ocultar login con animacion
+    document.getElementById('login-overlay').classList.add('hidden');
+}
+
+function handleLogout() {
+    sessionStorage.removeItem('pp_logged_in');
+    sessionStorage.removeItem('pp_user_email');
+
+    // Mostrar login
+    const overlay = document.getElementById('login-overlay');
+    overlay.classList.remove('hidden');
+
+    // Limpiar password
+    document.getElementById('login-password').value = '';
+}
+
+function togglePasswordVisibility() {
+    const pw = document.getElementById('login-password');
+    const icon = document.getElementById('pw-toggle-icon');
+    if (pw.type === 'password') {
+        pw.type = 'text';
+        icon.classList.replace('fa-eye', 'fa-eye-slash');
+    } else {
+        pw.type = 'password';
+        icon.classList.replace('fa-eye-slash', 'fa-eye');
+    }
+}
+
+function checkSession() {
+    const loggedIn = sessionStorage.getItem('pp_logged_in');
+    if (loggedIn === 'true') {
+        const email = sessionStorage.getItem('pp_user_email') || '';
+        const initials = email.split('@')[0].substring(0, 2).toUpperCase();
+        document.getElementById('header-avatar').textContent = initials;
+        document.getElementById('header-username').textContent = email;
+        document.getElementById('login-overlay').classList.add('hidden');
+    }
+}
+
+// Enter key en login
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' && !document.getElementById('login-overlay').classList.contains('hidden')) {
+        handleLogin();
+    }
+});
+
 // ---- INIT ----
 document.addEventListener('DOMContentLoaded', () => {
+    // Verificar sesion
+    checkSession();
+
     // Abrir submenu de Informes por defecto
     const informesSubmenu = document.querySelector('.sidebar-submenu');
     if (informesSubmenu) informesSubmenu.classList.add('open');
