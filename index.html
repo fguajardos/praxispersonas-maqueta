@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Praxis Personas</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+    <!-- PDF.js para lectura de PDF -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <script>pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';</script>
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <!-- ===== HEADER ===== -->
+    <header class="pp-header">
+        <div class="pp-header-inner">
+            <a href="#" class="pp-logo" onclick="goToWizardStep(1); return false;">
+                <div class="pp-logo-icon"><i class="fas fa-users"></i></div>
+                <span class="pp-logo-text">PraxisPersonas</span>
+            </a>
+            <nav class="pp-nav">
+                <a href="#"><i class="fas fa-book"></i>Instrucciones</a>
+                <a href="#"><i class="fas fa-file-alt"></i>Terminos y Condiciones</a>
+                <a href="#"><i class="fas fa-sign-in-alt"></i>Acceder</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- ===== BREADCRUMB ===== -->
+    <div class="pp-breadcrumb">
+        <div class="pp-breadcrumb-inner">
+            <h5 class="pp-page-title">POSTULACION</h5>
+            <nav>
+                <span>Oportunidades de Trabajo</span>
+                <span class="separator">&gt;</span>
+                <span>Postulacion</span>
+            </nav>
+        </div>
+    </div>
+
+    <!-- ===== MAIN CARD ===== -->
+    <main class="pp-main">
+        <div class="pp-card">
+
+            <div class="pp-job-title">
+                Postular a: <strong>Tecnico en instalaciones electricas</strong>
+            </div>
+
+            <!-- ===== WIZARD STEPS (dinamico) ===== -->
+            <div class="pp-wizard-steps" id="wizard-steps">
+                <div class="pp-step active" data-wizard="1" onclick="goToWizardStep(1)">
+                    <div class="pp-step-circle">01</div>
+                    <div class="pp-step-label">Informacion Anuncio</div>
+                </div>
+                <div class="pp-step" data-wizard="2" onclick="goToWizardStep(2)">
+                    <div class="pp-step-circle">02</div>
+                    <div class="pp-step-label">Informacion Personal</div>
+                </div>
+                <div class="pp-step" data-wizard="3" onclick="goToWizardStep(3)">
+                    <div class="pp-step-circle">03</div>
+                    <div class="pp-step-label">Informacion Laboral</div>
+                </div>
+                <div class="pp-step" data-wizard="4" onclick="goToWizardStep(4)">
+                    <div class="pp-step-circle">04</div>
+                    <div class="pp-step-label">Informacion Academica</div>
+                </div>
+                <div class="pp-step" data-wizard="5" onclick="goToWizardStep(5)">
+                    <div class="pp-step-circle">05</div>
+                    <div class="pp-step-label">Informacion Adicional</div>
+                </div>
+                <div class="pp-step" data-wizard="6" onclick="goToWizardStep(6)">
+                    <div class="pp-step-circle">06</div>
+                    <div class="pp-step-label">Ir a los Test</div>
+                </div>
+            </div>
+
+            <div class="pp-progress-bar">
+                <div class="pp-progress-fill" id="wizard-progress" style="width: 16.6%"></div>
+            </div>
+
+            <!-- ===== CONTENIDO DINAMICO ===== -->
+            <div class="pp-content">
+
+                <!-- ============ PASO 1: INFORMACION ANUNCIO ============ -->
+                <div id="wizard-step-1" class="wizard-screen active">
+                    <div class="welcome-box">
+                        <h5><i class="fas fa-hand-sparkles" style="color: var(--pp-accent);"></i> Bienvenido/a al proceso de postulacion</h5>
+                        <p>Completa cada paso del formulario para enviar tu postulacion. Tus datos seran tratados de forma confidencial y solo seran utilizados para este proceso de seleccion.</p>
+                    </div>
+
+                    <div class="form-section">
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <div class="info-display-card">
+                                    <label class="form-label-pp">Fecha Inicio</label>
+                                    <div class="info-value">24-03-2026</div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="info-display-card">
+                                    <label class="form-label-pp">Fecha Fin</label>
+                                    <div class="info-value">24-03-2026</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="info-display-card mt-3">
+                            <label class="form-label-pp">Descripcion</label>
+                            <div class="info-value">Proceso de prueba</div>
+                        </div>
+
+                        <div class="info-display-card mt-3">
+                            <label class="form-label-pp">Informacion</label>
+                            <div class="info-value">Te informamos que este proceso considera la realizacion de evaluaciones o test que requieren tiempos de respuesta que pueden variar entre 5 y 30 minutos.</div>
+                        </div>
+
+                        <div class="terms-box mt-4">
+                            <label class="form-label-pp">Aceptar Terminos y condiciones</label>
+                            <div class="form-check form-switch mt-2">
+                                <input class="form-check-input" type="checkbox" id="acceptTerms" onchange="clearWizardError()">
+                                <label class="form-check-label" for="acceptTerms">
+                                    Aceptar <a href="#" class="text-primary">Terminos y condiciones</a>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="pp-footer-buttons">
+                        <button class="btn btn-info" disabled>Anterior</button>
+                        <button class="btn btn-dark" onclick="goToWizardStep(2)">Siguiente <i class="fas fa-arrow-right"></i></button>
+                    </div>
+                </div>
+
+                <!-- ============ PASO 2: INFORMACION PERSONAL ============ -->
+                <div id="wizard-step-2" class="wizard-screen">
+                    <div class="welcome-box">
+                        <h5><i class="fas fa-robot" style="color: var(--pp-primary);"></i> Sube tu CV y la IA hara el resto</h5>
+                        <p>Nuestro agente de inteligencia artificial analizara tu CV y completara automaticamente todos los campos del formulario. Solo sube tu archivo y revisalo.</p>
+                    </div>
+
+                    <!-- Selector de proveedor IA -->
+                    <div class="ai-provider-selector mb-3">
+                        <label class="form-label-pp"><i class="fas fa-brain"></i> Motor de IA para analisis</label>
+                        <div class="row g-2">
+                            <div class="col-md-4">
+                                <select class="form-select form-control-modern" id="ai-provider-select" onchange="updateAIProvider()">
+                                    <option value="local">Parser local (sin API)</option>
+                                    <option value="groq" selected>Groq - Llama 3.3 70B (gratis)</option>
+                                    <option value="gemini">Google Gemini Flash (gratis)</option>
+                                    <option value="claude">Claude AI (de pago)</option>
+                                </select>
+                            </div>
+                            <div class="col-md-5" id="api-key-container" style="display:none;">
+                                <input type="password" class="form-control form-control-modern" id="ai-api-key" placeholder="Pega tu API Key aqui" onchange="updateAIProvider()">
+                            </div>
+                            <div class="col-md-3" id="api-help-container" style="display:none;">
+                                <a href="#" class="btn btn-sm btn-outline-primary w-100 h-100 d-flex align-items-center justify-content-center gap-1" id="api-help-link" target="_blank">
+                                    <i class="fas fa-key"></i> Obtener key gratis
+                                </a>
+                            </div>
+                        </div>
+                        <small class="text-muted" id="ai-provider-desc">Llama 3.3 70B: modelo potente y rapido. API 100% gratuita.</small>
+                    </div>
+
+                    <div class="form-section">
+                        <!-- CV Upload con Drag & Drop -->
+                        <div class="cv-upload-section mb-4">
+                            <label class="form-label-pp"><i class="fas fa-file-pdf"></i> Cargar CV (PDF)</label>
+                            <p class="text-muted small mb-2">Arrastra tu archivo aqui o haz clic para seleccionarlo. Analizaremos tu CV con IA para autocompletar los datos.</p>
+
+                            <input type="file" id="cv-file-input" accept=".pdf" style="display:none">
+
+                            <div class="cv-drop-zone" id="cv-drop-zone">
+                                <div class="cv-drop-icon">
+                                    <i class="fas fa-cloud-upload-alt"></i>
+                                </div>
+                                <div class="cv-drop-text">
+                                    <strong>Arrastra tu CV aqui</strong>
+                                    <small class="d-block text-muted">o haz clic para seleccionar un archivo PDF</small>
+                                </div>
+                            </div>
+
+                            <!-- Status del procesamiento -->
+                            <div class="cv-status" id="cv-status" style="display:none;"></div>
+
+                            <div class="form-check mt-2">
+                                <input class="form-check-input" type="checkbox" id="manual-check">
+                                <label class="form-check-label small text-muted" for="manual-check">
+                                    No deseo analizar mi CV. Completare los datos manualmente
+                                </label>
+                            </div>
+                        </div>
+
+                        <hr class="my-4">
+
+                        <h6 class="mb-3" style="color: var(--pp-text-dark);"><i class="fas fa-user"></i> Datos personales</h6>
+
+                        <div class="mb-3">
+                            <label class="form-label-pp">Nombre Completo</label>
+                            <input type="text" class="form-control form-control-modern" id="field-nombre" placeholder="Se completara al subir el CV">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label-pp">E-mail</label>
+                            <input type="email" class="form-control form-control-modern" id="field-email" placeholder="Se completara al subir el CV">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label-pp">Telefono</label>
+                            <input type="tel" class="form-control form-control-modern" id="field-telefono" placeholder="Se completara al subir el CV">
+                        </div>
+                    </div>
+
+                    <div class="pp-footer-buttons">
+                        <button class="btn btn-info" onclick="goToWizardStep(1)">Anterior</button>
+                        <button class="btn btn-dark" onclick="goToWizardStep(3)">Siguiente <i class="fas fa-arrow-right"></i></button>
+                    </div>
+                </div>
+
+                <!-- ============ PASO 3: INFORMACION LABORAL ============ -->
+                <div id="wizard-step-3" class="wizard-screen">
+                    <div class="welcome-box">
+                        <h5><i class="fas fa-briefcase" style="color: var(--pp-primary);"></i> Tu experiencia laboral</h5>
+                        <p>Aca encontraras los datos extraidos de tu curriculum. Puedes modificarlos si faltan datos o no estan correctos. Debes seleccionar el motivo del termino del contrato para cada experiencia.</p>
+                    </div>
+
+                    <div id="experience-container">
+                    <!-- Experiencia 1 -->
+                    <div class="experience-card">
+                        <div class="experience-header">
+                            <span class="experience-number">1</span>
+                            <span class="experience-title">Experiencia actual</span>
+                        </div>
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label class="form-label-pp">Empresa</label>
+                                <input type="text" class="form-control form-control-modern" value="NCG Servicios">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label-pp">Cargo</label>
+                                <input type="text" class="form-control form-control-modern" value="Analista Senior Controller">
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label-pp">Fecha Inicio</label>
+                                <input type="date" class="form-control form-control-modern" value="2025-07-01">
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label-pp">Fecha Fin</label>
+                                <input type="date" class="form-control form-control-modern" value="2026-03-26">
+                            </div>
+                            <div class="col-md-2 d-flex align-items-end">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" checked id="current1">
+                                    <label class="form-check-label small" for="current1">A la fecha</label>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label-pp">Motivo Termino</label>
+                                <select class="form-select form-control-modern">
+                                    <option selected>A la fecha</option>
+                                    <option>Renuncia voluntaria</option>
+                                    <option>Termino de contrato</option>
+                                    <option>Despido</option>
+                                    <option>Mutuo acuerdo</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Experiencia 2 -->
+                    <div class="experience-card">
+                        <div class="experience-header">
+                            <span class="experience-number">2</span>
+                            <span class="experience-title">Experiencia anterior</span>
+                            <button class="btn btn-sm btn-outline-danger ms-auto"><i class="fas fa-trash"></i> Eliminar</button>
+                        </div>
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label class="form-label-pp">Empresa</label>
+                                <input type="text" class="form-control form-control-modern" value="USACH">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label-pp">Cargo</label>
+                                <input type="text" class="form-control form-control-modern" value="Desarrollador de Proyecto de IA (Minor en Ciencia de Datos)">
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label-pp">Fecha Inicio</label>
+                                <input type="date" class="form-control form-control-modern" value="2025-01-01">
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label-pp">Fecha Fin</label>
+                                <input type="date" class="form-control form-control-modern" value="2025-07-01">
+                            </div>
+                            <div class="col-md-2 d-flex align-items-end">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="current2">
+                                    <label class="form-check-label small" for="current2">A la fecha</label>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label-pp">Motivo Termino</label>
+                                <select class="form-select form-control-modern">
+                                    <option>A la fecha</option>
+                                    <option selected>Cambio de Cargo</option>
+                                    <option>Termino de contrato</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Experiencia 3 -->
+                    <div class="experience-card">
+                        <div class="experience-header">
+                            <span class="experience-number">3</span>
+                            <span class="experience-title">Experiencia anterior</span>
+                            <button class="btn btn-sm btn-outline-danger ms-auto"><i class="fas fa-trash"></i> Eliminar</button>
+                        </div>
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label class="form-label-pp">Empresa</label>
+                                <input type="text" class="form-control form-control-modern" value="Stefanini Group">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label-pp">Cargo</label>
+                                <input type="text" class="form-control form-control-modern" value="Ingeniero de Operaciones">
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label-pp">Fecha Inicio</label>
+                                <input type="date" class="form-control form-control-modern" value="2024-06-01">
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label-pp">Fecha Fin</label>
+                                <input type="date" class="form-control form-control-modern" value="2025-01-01">
+                            </div>
+                            <div class="col-md-2 d-flex align-items-end">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="current3">
+                                    <label class="form-check-label small" for="current3">A la fecha</label>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label-pp">Motivo Termino</label>
+                                <select class="form-select form-control-modern">
+                                    <option selected>Renuncia voluntaria</option>
+                                    <option>Cambio de Cargo</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    </div><!-- /experience-container -->
+
+                    <button class="btn btn-add-more w-100 mt-3">
+                        <i class="fas fa-plus-circle"></i> Anadir otra experiencia
+                    </button>
+
+                    <div class="pp-footer-buttons">
+                        <button class="btn btn-info" onclick="goToWizardStep(2)">Anterior</button>
+                        <button class="btn btn-dark" onclick="goToWizardStep(4)">Siguiente <i class="fas fa-arrow-right"></i></button>
+                    </div>
+                </div>
+
+                <!-- ============ PASO 4: INFORMACION ACADEMICA ============ -->
+                <div id="wizard-step-4" class="wizard-screen">
+                    <div class="welcome-box">
+                        <h5><i class="fas fa-graduation-cap" style="color: var(--pp-primary);"></i> Tu formacion academica</h5>
+                        <p>Revisa que tus estudios esten correctos. Puedes agregar o eliminar registros segun necesites.</p>
+                    </div>
+
+                    <div id="education-container">
+                    <!-- Formacion 1 -->
+                    <div class="experience-card">
+                        <div class="experience-header">
+                            <span class="experience-number"><i class="fas fa-university"></i></span>
+                            <span class="experience-title">En curso</span>
+                        </div>
+                        <div class="row g-3">
+                            <div class="col-md-3">
+                                <label class="form-label-pp">Formacion</label>
+                                <input type="text" class="form-control form-control-modern" value="Ingenieria Civil Industrial">
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label-pp">Institucion</label>
+                                <input type="text" class="form-control form-control-modern" value="USACH">
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label-pp">Fecha Ingreso</label>
+                                <input type="date" class="form-control form-control-modern" value="2024-01-01">
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label-pp">Fecha Egreso</label>
+                                <input type="date" class="form-control form-control-modern" value="2027-01-01">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Formacion 2 -->
+                    <div class="experience-card">
+                        <div class="experience-header">
+                            <span class="experience-number"><i class="fas fa-university"></i></span>
+                            <span class="experience-title">Titulado</span>
+                            <button class="btn btn-sm btn-outline-danger ms-auto"><i class="fas fa-trash"></i> Eliminar</button>
+                        </div>
+                        <div class="row g-3">
+                            <div class="col-md-3">
+                                <label class="form-label-pp">Formacion</label>
+                                <input type="text" class="form-control form-control-modern" value="Ingenieria en Administracion de Empresas">
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label-pp">Institucion</label>
+                                <input type="text" class="form-control form-control-modern" value="Instituto Profesional Duoc UC">
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label-pp">Fecha Ingreso</label>
+                                <input type="date" class="form-control form-control-modern" value="2014-03-03">
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label-pp">Fecha Egreso</label>
+                                <input type="date" class="form-control form-control-modern" value="2018-03-30">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Formacion 3 -->
+                    <div class="experience-card">
+                        <div class="experience-header">
+                            <span class="experience-number"><i class="fas fa-university"></i></span>
+                            <span class="experience-title">En curso</span>
+                            <button class="btn btn-sm btn-outline-danger ms-auto"><i class="fas fa-trash"></i> Eliminar</button>
+                        </div>
+                        <div class="row g-3">
+                            <div class="col-md-3">
+                                <label class="form-label-pp">Formacion</label>
+                                <input type="text" class="form-control form-control-modern" value="Minor en Ciencia de Datos Avanzado">
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label-pp">Institucion</label>
+                                <input type="text" class="form-control form-control-modern" value="USACH">
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label-pp">Fecha Ingreso</label>
+                                <input type="date" class="form-control form-control-modern" value="2024-01-01">
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label-pp">Fecha Egreso</label>
+                                <input type="date" class="form-control form-control-modern" value="2026-01-30">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Formacion 4 -->
+                    <div class="experience-card">
+                        <div class="experience-header">
+                            <span class="experience-number"><i class="fas fa-university"></i></span>
+                            <span class="experience-title">Completado</span>
+                            <button class="btn btn-sm btn-outline-danger ms-auto"><i class="fas fa-trash"></i> Eliminar</button>
+                        </div>
+                        <div class="row g-3">
+                            <div class="col-md-3">
+                                <label class="form-label-pp">Formacion</label>
+                                <input type="text" class="form-control form-control-modern" value="Diplomado Ejecutivo en Inteligencia de Negocios">
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label-pp">Institucion</label>
+                                <input type="text" class="form-control form-control-modern" value="Pontificia Universidad Catolica de Chile">
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label-pp">Fecha Ingreso</label>
+                                <input type="date" class="form-control form-control-modern" value="2021-09-01">
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label-pp">Fecha Egreso</label>
+                                <input type="date" class="form-control form-control-modern" value="2022-07-29">
+                            </div>
+                        </div>
+                    </div>
+
+                    </div><!-- /education-container -->
+
+                    <button class="btn btn-add-more w-100 mt-3">
+                        <i class="fas fa-plus-circle"></i> Anadir otra formacion
+                    </button>
+
+                    <div class="pp-footer-buttons">
+                        <button class="btn btn-info" onclick="goToWizardStep(3)">Anterior</button>
+                        <button class="btn btn-dark" onclick="goToWizardStep(5)">Siguiente <i class="fas fa-arrow-right"></i></button>
+                    </div>
+                </div>
+
+                <!-- ============ PASO 5: INFORMACION ADICIONAL ============ -->
+                <div id="wizard-step-5" class="wizard-screen">
+                    <div class="welcome-box">
+                        <h5><i class="fas fa-clipboard-list" style="color: var(--pp-primary);"></i> Informacion adicional</h5>
+                        <p>Completa estos ultimos datos para finalizar tu perfil de postulacion. Esta informacion nos ayuda a conocerte mejor.</p>
+                    </div>
+
+                    <div class="form-section">
+                        <div class="mb-3">
+                            <label class="form-label-pp">Motivacion</label>
+                            <textarea class="form-control form-control-modern" rows="3" id="field-motivacion" placeholder="Se completara al subir el CV">Me motiva poder tomar nuevos desafios, para poder aplicar los conocimientos que tengo para mejorar los procesos en la organizacion</textarea>
+                            <small class="text-muted">Cuentanos brevemente por que te interesa este cargo</small>
+                        </div>
+
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label class="form-label-pp">Pretension de Renta</label>
+                                <div class="input-group">
+                                    <span class="input-group-text input-prefix">$</span>
+                                    <input type="text" class="form-control form-control-modern" value="2200000">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label-pp">Disponibilidad para Asumir el Cargo</label>
+                                <input type="text" class="form-control form-control-modern" value="Inmediata">
+                            </div>
+                        </div>
+
+                        <div class="row g-3 mt-1">
+                            <div class="col-md-4">
+                                <label class="form-label-pp">Comuna</label>
+                                <select class="form-select form-control-modern">
+                                    <option>Seleccionar...</option>
+                                    <option>La Florida</option>
+                                    <option selected>Lo Barnechea</option>
+                                    <option>Las Condes</option>
+                                    <option>Providencia</option>
+                                    <option>Santiago</option>
+                                    <option>Nunoa</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label-pp">Genero</label>
+                                <select class="form-select form-control-modern">
+                                    <option>Seleccionar...</option>
+                                    <option selected>Hombre</option>
+                                    <option>Mujer</option>
+                                    <option>Otro</option>
+                                    <option>Prefiero no decir</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label-pp">Fecha de nacimiento</label>
+                                <input type="date" class="form-control form-control-modern" value="1995-11-08">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="pp-footer-buttons">
+                        <button class="btn btn-info" onclick="goToWizardStep(4)">Anterior</button>
+                        <button class="btn btn-dark" onclick="goToWizardStep(6)">Siguiente <i class="fas fa-arrow-right"></i></button>
+                    </div>
+                </div>
+
+                <!-- ============ PASO 6: IR A LOS TEST ============ -->
+                <div id="wizard-step-6" class="wizard-screen">
+                    <div class="welcome-box">
+                        <h5><i class="fas fa-star" style="color: var(--pp-accent);"></i> Ya casi terminas!</h5>
+                        <p>Solo queda completar las evaluaciones asignadas. Una vez que contestes todos los test, podras enviar tu postulacion. No te preocupes, no hay respuestas correctas ni incorrectas.</p>
+                    </div>
+
+                    <div class="help-tip">
+                        <i class="fas fa-lightbulb"></i>
+                        Haz clic en "Contestar test" para comenzar cada evaluacion
+                    </div>
+
+                    <table class="pp-table">
+                        <thead>
+                            <tr>
+                                <th>Nombre <i class="fas fa-sort"></i></th>
+                                <th>Accion <i class="fas fa-sort"></i></th>
+                            </tr>
+                        </thead>
+                        <tbody id="tests-table-body">
+                            <tr data-test="barrat">
+                                <td>BARRAT</td>
+                                <td>
+                                    <a href="#" class="btn btn-info btn-sm" onclick="openTestModal('barrat'); return false;">
+                                        <i class="fas fa-edit"></i> Contestar test
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr data-test="disc">
+                                <td>DISC</td>
+                                <td>
+                                    <a href="#" class="btn btn-info btn-sm" onclick="openTestModal('disc'); return false;">
+                                        <i class="fas fa-edit"></i> Contestar test
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr data-test="liderazgo">
+                                <td>LIDERAZGO SITUACIONAL</td>
+                                <td>
+                                    <a href="#" class="btn btn-info btn-sm" onclick="openTestModal('liderazgo'); return false;">
+                                        <i class="fas fa-edit"></i> Contestar test
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr data-test="valanti">
+                                <td>VALANTI</td>
+                                <td>
+                                    <a href="#" class="btn btn-info btn-sm" onclick="openTestModal('valanti'); return false;">
+                                        <i class="fas fa-edit"></i> Contestar test
+                                    </a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div class="pp-footer-buttons">
+                        <button class="btn btn-info" onclick="goToWizardStep(5)">Anterior</button>
+                        <button class="btn btn-dark" disabled id="btn-send-postulation">Enviar Postulacion</button>
+                    </div>
+                </div>
+
+            </div><!-- /pp-content -->
+        </div><!-- /pp-card -->
+    </main>
+
+    <!-- ===== MODAL OVERLAY PARA TESTS ===== -->
+    <div class="test-modal-overlay" id="test-modal-overlay">
+        <div class="test-modal">
+            <div class="test-modal-header" id="test-modal-header">
+                <div class="d-flex align-items-center gap-3">
+                    <div class="test-modal-icon" id="test-modal-icon"><i class="fas fa-clipboard-list"></i></div>
+                    <div>
+                        <h5 class="mb-0" id="test-modal-title">Test</h5>
+                        <small class="opacity-75" id="test-modal-subtitle"></small>
+                    </div>
+                </div>
+                <button class="test-modal-close" onclick="closeTestModal()"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="test-modal-body" id="test-modal-body">
+                <!-- Contenido dinamico del test -->
+            </div>
+        </div>
+    </div>
+
+    <footer class="pp-footer">
+        <span>2026 &copy; Praxis.</span>
+        <span>Desarrollado con <i class="fas fa-heart text-danger"></i> por ISIAC</span>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="cv-parser.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
