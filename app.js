@@ -160,44 +160,129 @@ const adaptabilityKey = {
 };
 
 // Descripciones de los estilos
+// Descripciones e interpretaciones basadas en:
+// - Manual IMCE 2015 (Test de Liderazgo Situacional)
+// - Teoria de Liderazgo Situacional de Paul Hersey y Ken Blanchard
+// - Modelo Tridimensional de Efectividad del Lider
 const styleDescriptions = {
     E1: {
         name: "Dirigir",
         subtitle: "Alta Tarea - Baja Relacion",
         color: "#e74c3c",
-        description: "El lider define los roles y tareas del colaborador y lo supervisa de cerca. Las decisiones las toma el lider y las comunica al colaborador. Se caracteriza por tener metodos de trabajo bien definidos que permiten a los colaboradores cumplir con las metas.",
-        effective: "Visto como teniendo metodos bien definidos para el cumplimiento de metas, los que son utiles para los colaboradores.",
-        ineffective: "Visto como imponiendo metodos a otros; a veces visto como desagradable e interesado solo en el resultado a corto plazo.",
-        facilitation: "Baja facilitacion"
+        facilitation: "Baja facilitacion",
+        // Comportamiento directivo segun Hersey & Blanchard
+        behavior: "Comportamiento alto en tarea y bajo en relacionamiento. Involucra decirle claramente a las personas lo que deben hacer, como hacerlo, donde y cuando, y luego supervisar estrechamente su desempeno.",
+        description: "El lider define los roles y tareas del colaborador y lo supervisa de cerca. Las decisiones las toma el lider y las comunica al colaborador. Se caracteriza por tener metodos de trabajo bien definidos que permiten a los colaboradores cumplir con las metas. Establece objetivos claros, organiza el trabajo, define lineamientos de tiempo, dirige y controla.",
+        effective: "Visto como una persona con metodos de trabajo bien definidos, que permite a los colaboradores cumplir con las metas. Es util cuando los colaboradores tienen poca competencia pero mucho interes (nivel de desarrollo D1).",
+        ineffective: "Visto como impositivo en sus metodos y algunas veces como desagradable e interesado solo en los resultados a corto plazo. Puede generar resistencia si se aplica a colaboradores con alta madurez.",
+        // Nivel de desarrollo del colaborador que requiere este estilo (IMCE 2015)
+        targetDevelopment: "D1: Poca Competencia, Mucho Interes",
+        targetActions: "Estructurar, Controlar, Supervisar",
+        // Cuando usar este estilo
+        whenToUse: "Cuando los colaboradores son nuevos, no conocen la tarea, necesitan direccion clara y supervision cercana. El colaborador tiene buena disposicion pero no sabe como hacer la tarea.",
+        whenNotToUse: "Cuando los colaboradores son expertos y estan altamente motivados. Aplicar este estilo en esos casos genera desmotivacion y percepcion de micromanagement."
     },
     E2: {
         name: "Instruir",
         subtitle: "Alta Tarea - Alta Relacion",
         color: "#f39c12",
-        description: "El lider define roles y tareas pero busca ideas y sugerencias del colaborador. Las decisiones las sigue tomando el lider, pero la comunicacion es bidireccional. Satisface las necesidades del equipo fijando metas y organizando el trabajo, proporcionando soporte socio-emocional.",
-        effective: "Visto como satisfaciendo las necesidades de los colaboradores para el establecimiento de metas y la organizacion del trabajo, proporcionando altos niveles de apoyo socio-emocional.",
-        ineffective: "Visto como proporcionando mas estructura de la requerida y a menudo aparece no siendo sincero en las relaciones interpersonales.",
-        facilitation: "Moderada facilitacion"
+        facilitation: "Moderada facilitacion",
+        behavior: "Comportamiento alto en tarea y alto en relacionamiento. El lider sigue proporcionando direccion pero tambien explica las decisiones, pide sugerencias y reconoce los avances.",
+        description: "El lider define roles y tareas pero busca ideas y sugerencias del colaborador. Las decisiones las sigue tomando el lider, pero la comunicacion es bidireccional. Satisface las necesidades del equipo fijando metas y organizando el trabajo, proporcionando soporte socio-emocional para empujar a los colaboradores. Explica el por que de las decisiones, orienta y pide sugerencias.",
+        effective: "Visto como una persona que satisface las necesidades del equipo fijando metas y organizando el trabajo, proporcionando altos niveles de apoyo socio-emocional. Ideal para colaboradores con alguna competencia pero interes variable (D2).",
+        ineffective: "Visto como una persona que proporciona mas estructura de la requerida por el equipo; y a menudo parece no ser genuina en sus relaciones interpersonales. Puede percibirse como manipulador si la relacion no es autentica.",
+        targetDevelopment: "D2: Alguna Competencia, Interes Variable",
+        targetActions: "Explicar, Orientar, Pedir Sugerencias",
+        whenToUse: "Cuando los colaboradores estan aprendiendo, tienen alguna competencia pero aun necesitan guia. Su motivacion puede fluctuar porque enfrentan dificultades. Necesitan tanto direccion como apoyo emocional.",
+        whenNotToUse: "Cuando los colaboradores ya dominan la tarea y solo necesitan autonomia. El exceso de instruccion puede percibirse como falta de confianza."
     },
     E3: {
         name: "Apoyar",
         subtitle: "Baja Tarea - Alta Relacion",
         color: "#27ae60",
-        description: "El lider y el colaborador participan juntos en la toma de decisiones. El rol principal del lider es facilitar y comunicar. Tiene confianza implicita en su personal, provocando facilitar el cumplimiento de las metas a traves de orientar y apoyar al equipo.",
-        effective: "Visto como teniendo confianza implicita en las personas y como estando preocupado primariamente por facilitarles el cumplimiento de sus metas.",
-        ineffective: "Visto como primariamente interesado en la armonia; a veces no esta dispuesto a efectuar la tarea si hay riesgo de romper una relacion.",
-        facilitation: "Moderada facilitacion"
+        facilitation: "Moderada facilitacion",
+        behavior: "Comportamiento bajo en tarea y alto en relacionamiento. El lider facilita y comunica, escucha activamente, proporciona reconocimiento y retroalimentacion, y apoya emocionalmente.",
+        description: "El lider y el colaborador participan juntos en la toma de decisiones. El rol principal del lider es facilitar, comunicar y dar apoyo. Tiene confianza implicita en su personal, facilitando el cumplimiento de las metas a traves de orientar y apoyar al equipo. Involucra escuchar a las personas, facilitar su compromiso en la resolucion de problemas y proporcionar estimulos para sus esfuerzos.",
+        effective: "Visto como una persona que tiene confianza implicita en su personal, preocupada primariamente por facilitarles el cumplimiento de sus metas. Efectivo con colaboradores de mucha competencia pero interes variable (D3).",
+        ineffective: "Visto como interesado primordialmente en la armonia; algunas veces no esta dispuesto a efectuar la tarea si esta representa el riesgo de romper una relacion o perder la imagen de 'buen jefe'.",
+        targetDevelopment: "D3: Mucha Competencia, Interes Variable",
+        targetActions: "Involucrar, Elogiar, Escuchar, Dar facilidades",
+        whenToUse: "Cuando los colaboradores son competentes pero pueden estar desmotivados o inseguros. Saben hacer la tarea pero necesitan confianza, reconocimiento y participacion en las decisiones.",
+        whenNotToUse: "Cuando los colaboradores no tienen las competencias basicas. El apoyo emocional sin direccion no resuelve la falta de conocimiento tecnico."
     },
     E4: {
         name: "Delegar",
         subtitle: "Baja Tarea - Baja Relacion",
         color: "#3498db",
-        description: "El lider delega y genera empowerment en sus colaboradores para que decidan como efectuar el trabajo con el minimo apoyo socio-emocional requerido. Busca el desarrollo de la autogestion en el equipo.",
-        effective: "Visto como delegando en forma apropiada en sus colaboradores las decisiones acerca de como deberia hacerse el trabajo.",
-        ineffective: "Visto como proporcionando poca estructura y escaso apoyo socio-emocional, aun cuando los miembros del equipo lo requieran.",
-        facilitation: "Alta facilitacion"
+        facilitation: "Alta facilitacion",
+        behavior: "Comportamiento bajo en tarea y bajo en relacionamiento. El lider delega la responsabilidad de las decisiones cotidianas al colaborador, proporcionando minima supervision y apoyo.",
+        description: "El lider delega y genera 'Empowerment' en sus colaboradores, para que decidan como efectuar el trabajo con el minimo apoyo socio-emocional requerido por el equipo, ya que busca el desarrollo de la autogestion. Traspasa responsabilidades de las decisiones cotidianas al equipo.",
+        effective: "Visto como una persona que delega en forma apropiada en sus colaboradores las decisiones acerca de como deberia hacerse el trabajo y proporcionando poco apoyo socio-emocional donde se requiere poco por parte de los colaboradores.",
+        ineffective: "Visto como una persona que proporciona poca estructura y escaso apoyo socio-emocional, aun cuando los miembros del equipo lo requieran, dando la imagen de abandono y evasion.",
+        targetDevelopment: "D4: Mucha Competencia, Mucho Interes",
+        targetActions: "Traspasar responsabilidades de las decisiones cotidianas",
+        whenToUse: "Cuando los colaboradores son expertos, estan altamente motivados y son capaces de autogestionarse. Tienen tanto la competencia como el compromiso para trabajar de forma autonoma.",
+        whenNotToUse: "Cuando los colaboradores son nuevos o estan desmotivados. La falta de direccion y apoyo puede generar sensacion de abandono y afectar el desempeno."
     }
 };
+
+// Interpretacion de Adaptabilidad (basada en Modelo Tridimensional IMCE 2015)
+const adaptabilityInterpretation = {
+    high: {
+        range: "30 - 36",
+        level: "Alto grado de adaptabilidad",
+        description: "El evaluado demuestra una alta capacidad para diagnosticar el nivel de madurez de sus colaboradores y ajustar su estilo de liderazgo de forma apropiada a cada situacion. Esto indica flexibilidad gerencial y habilidad para leer correctamente las necesidades de su equipo, aplicando el estilo mas efectivo en cada caso."
+    },
+    moderate: {
+        range: "24 - 29",
+        level: "Grado moderado de adaptabilidad",
+        description: "El evaluado muestra una capacidad moderada para ajustar su estilo de liderazgo. Si bien logra adaptar su comportamiento en algunas situaciones, existen oportunidades de mejora en el diagnostico de la madurez de los colaboradores. Se recomienda profundizar en la identificacion de las necesidades especificas de cada miembro del equipo."
+    },
+    low: {
+        range: "Menos de 24",
+        level: "Necesita desarrollo",
+        description: "El evaluado muestra necesidad de autodesarrollo para mejorar su habilidad de diagnosticar la madurez de la tarea y utilizar los comportamientos de liderazgo apropiados. Se sugiere capacitacion en el modelo de Liderazgo Situacional para desarrollar mayor flexibilidad en la aplicacion de los diferentes estilos segun las necesidades de cada colaborador."
+    }
+};
+
+// Interpretacion del Rango de Estilo (basada en IMCE 2015)
+function interpretStyleRange(styleScores, predominantStyle, secondaryStyles, styleRange) {
+    const pStyle = styleDescriptions[predominantStyle];
+    let interpretation = '';
+
+    // Estilo primario
+    interpretation += `<strong>Estilo primario: ${predominantStyle} (${pStyle.name})</strong> con ${styleScores[predominantStyle]} de 12 respuestas. `;
+    interpretation += `${pStyle.behavior} `;
+    interpretation += `Este estilo es mas efectivo con colaboradores en nivel de desarrollo ${pStyle.targetDevelopment}. `;
+
+    // Estilos secundarios
+    if (secondaryStyles.length > 0) {
+        interpretation += `<br><br><strong>Estilos secundarios:</strong> `;
+        secondaryStyles.forEach(s => {
+            const desc = styleDescriptions[s];
+            interpretation += `${s} (${desc.name}) con ${styleScores[s]} respuestas. `;
+        });
+        interpretation += `La presencia de estilos secundarios indica versatilidad en el ejercicio del liderazgo. `;
+    }
+
+    // Rango y flexibilidad
+    const rangeCount = styleRange.length;
+    interpretation += `<br><br><strong>Rango de estilo:</strong> El evaluado muestra flexibilidad en ${rangeCount} de 4 cuadrantes. `;
+
+    if (rangeCount >= 3) {
+        interpretation += `Tres o mas respuestas en un cuadrante indican un alto grado de flexibilidad en el uso de los comportamientos de ese cuadrante. Esto sugiere un lider versatil capaz de adaptar su comportamiento a diferentes situaciones.`;
+    } else if (rangeCount === 2) {
+        interpretation += `Dos cuadrantes activos indican una flexibilidad moderada. El evaluado tiende a alternar entre dos estilos predominantes, lo cual puede ser efectivo si estos estilos coinciden con las necesidades de su equipo actual.`;
+    } else {
+        interpretation += `Un solo cuadrante activo sugiere un estilo de liderazgo rigido. Se recomienda desarrollar mayor flexibilidad para poder adaptar el comportamiento a las diferentes necesidades de los colaboradores.`;
+    }
+
+    // Cuando usar / cuando no usar
+    interpretation += `<br><br><strong>Cuando usar ${predominantStyle} (${pStyle.name}):</strong> ${pStyle.whenToUse}`;
+    interpretation += `<br><br><strong>Precaucion:</strong> ${pStyle.whenNotToUse}`;
+
+    return interpretation;
+}
 
 // ---- ESTADO DE LA APP ----
 let currentQuestion = 0;
@@ -744,45 +829,102 @@ function renderLiderazgoResults(container) {
     let levelClass = results.adaptabilityLevel === 'Alto' ? 'high' : results.adaptabilityLevel === 'Moderado' ? 'moderate' : 'low';
     let levelColor = results.adaptabilityLevel === 'Alto' ? '#10b981' : results.adaptabilityLevel === 'Moderado' ? '#f59e0b' : '#ef4444';
 
+    // Obtener interpretacion de adaptabilidad
+    const adaptKey = results.adaptabilityLevel === 'Alto' ? 'high' : results.adaptabilityLevel === 'Moderado' ? 'moderate' : 'low';
+    const adaptInterp = adaptabilityInterpretation[adaptKey];
+
+    // Generar interpretacion del rango de estilo
+    const rangeInterpretation = interpretStyleRange(results.styleScores, results.predominantStyle, results.secondaryStyles, results.styleRange);
+
     container.innerHTML = `
         <div id="report-content">
             <div class="report-candidate-section mb-3" style="border-radius:var(--pp-radius)">
                 <div class="row">
                     <div class="col-md-6"><strong>Evaluado:</strong> Francisco Javier Guajardo Sempertegui</div>
                     <div class="col-md-6"><strong>Fecha:</strong> ${formatDate(new Date())}</div>
+                    <div class="col-md-6"><strong>Instrumento:</strong> Test Liderazgo Situacional IMCE 2015</div>
+                    <div class="col-md-6"><strong>Modelo:</strong> Hersey y Blanchard</div>
                 </div>
             </div>
-            <h5 class="report-section-title">Puntajes por Estilo</h5>
+
+            <h5 class="report-section-title">1. Puntajes por Estilo de Liderazgo</h5>
             <div class="row g-3 mb-4">
                 ${['E1','E2','E3','E4'].map(style => {
                     const s = styleDescriptions[style]; const score = results.styleScores[style];
-                    return `<div class="col-6 col-md-3"><div class="score-box" style="--score-color:${s.color}"><div class="score-label">${style} - ${s.name}</div><div class="score-value">${score}</div><div class="progress" style="height:8px"><div class="progress-bar" style="background:${s.color};width:${(score/12)*100}%"></div></div></div></div>`;
+                    return `<div class="col-6 col-md-3"><div class="score-box" style="--score-color:${s.color}"><div class="score-label">${style} - ${s.name}</div><div class="score-value">${score}</div><div class="progress" style="height:8px"><div class="progress-bar" style="background:${s.color};width:${(score/12)*100}%"></div></div><small class="text-muted">${s.subtitle}</small></div></div>`;
                 }).join('')}
             </div>
-            <h5 class="report-section-title">Grafico Comparativo</h5>
+
+            <h5 class="report-section-title">2. Grafico Comparativo</h5>
             <div class="chart-container mb-4"><canvas id="chart-styles" width="500" height="280"></canvas></div>
-            <h5 class="report-section-title">Estilo Predominante</h5>
-            <div class="d-flex gap-4 align-items-start mb-4">
+
+            <h5 class="report-section-title">3. Estilo Predominante e Interpretacion</h5>
+            <div class="d-flex gap-4 align-items-start mb-3">
                 <div class="predominant-badge" style="background:${pStyle.color}">${results.predominantStyle}</div>
                 <div>
                     <h5 class="mb-1">${results.predominantStyle} - ${pStyle.name}</h5>
-                    <p class="text-muted small mb-2">${pStyle.subtitle}</p>
-                    <p class="small">${pStyle.description}</p>
+                    <p class="text-muted small mb-2">${pStyle.subtitle} | ${pStyle.facilitation}</p>
+                    <p>${pStyle.description}</p>
                     <span class="predominant-tag" style="background:${pStyle.color}20;color:${pStyle.color}">Puntaje: ${results.styleScores[results.predominantStyle]}/12</span>
                 </div>
             </div>
-            <h5 class="report-section-title">Adaptabilidad de Estilo</h5>
-            <div class="d-flex gap-4 align-items-start mb-4">
+            <div class="alert alert-info small mb-4" style="line-height:1.8">
+                ${rangeInterpretation}
+            </div>
+
+            <h5 class="report-section-title">4. Efectividad del Estilo</h5>
+            <div class="row g-3 mb-4">
+                <div class="col-md-6">
+                    <div class="p-3 rounded" style="background:#d1fae5;border:1px solid #a7f3d0">
+                        <h6 class="mb-2" style="color:#065f46"><i class="fas fa-check-circle"></i> Efectivo</h6>
+                        <p class="small mb-0" style="color:#065f46">${pStyle.effective}</p>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="p-3 rounded" style="background:#fee2e2;border:1px solid #fecaca">
+                        <h6 class="mb-2" style="color:#991b1b"><i class="fas fa-exclamation-triangle"></i> No Efectivo</h6>
+                        <p class="small mb-0" style="color:#991b1b">${pStyle.ineffective}</p>
+                    </div>
+                </div>
+            </div>
+
+            <h5 class="report-section-title">5. Nivel de Desarrollo del Colaborador</h5>
+            <div class="p-3 rounded mb-4" style="background:var(--pp-primary-bg,#eef2ff);border:1px solid rgba(99,102,241,0.15)">
+                <p class="small mb-2"><strong>El estilo ${results.predominantStyle} (${pStyle.name}) es mas apropiado para colaboradores en nivel:</strong></p>
+                <p class="mb-1"><span class="badge" style="background:${pStyle.color}">${pStyle.targetDevelopment}</span></p>
+                <p class="small mb-1"><strong>Acciones del lider:</strong> ${pStyle.targetActions}</p>
+                <p class="small mb-1"><strong>Formula:</strong> Efectividad = Competencia + Interes del colaborador</p>
+                <hr>
+                <p class="small mb-0"><strong>Cuando aplicar:</strong> ${pStyle.whenToUse}</p>
+            </div>
+
+            <h5 class="report-section-title">6. Adaptabilidad de Estilo</h5>
+            <div class="d-flex gap-4 align-items-start mb-3">
                 <div class="text-center p-3 bg-light rounded" style="min-width:100px">
                     <div class="adaptability-big-number" style="color:${levelColor}">${results.adaptabilityScore}</div>
                     <div class="text-muted small">de 36</div>
                 </div>
                 <div>
-                    <p class="small"><strong>30-36:</strong> Alto | <strong>24-29:</strong> Moderado | <strong>&lt;24:</strong> Necesita desarrollo</p>
-                    <span class="adapt-level ${levelClass}">${results.adaptabilityLevel}</span>
+                    <span class="adapt-level ${levelClass} mb-2">${results.adaptabilityLevel} (${adaptInterp.range})</span>
+                    <p class="mt-2">${adaptInterp.description}</p>
                 </div>
             </div>
-            <h5 class="report-section-title">Detalle de Respuestas</h5>
+
+            <h5 class="report-section-title">7. Descripcion de los 4 Estilos</h5>
+            <div class="row g-3 mb-4">
+                ${['E1','E2','E3','E4'].map(style => {
+                    const s = styleDescriptions[style];
+                    const isPredom = style === results.predominantStyle;
+                    return `<div class="col-md-6"><div class="p-3 rounded" style="border:1px solid ${isPredom ? s.color : 'var(--pp-border,#e2e8f0)'};border-top:4px solid ${s.color};background:${isPredom ? s.color+'08' : '#fff'}">
+                        <h6>${style} - ${s.name} ${isPredom ? '<span class="badge bg-primary">Predominante</span>' : ''}</h6>
+                        <small class="text-muted">${s.subtitle} | ${s.facilitation}</small>
+                        <p class="small mt-2 mb-1">${s.behavior}</p>
+                        <p class="small mb-0"><strong>Apropiado para:</strong> ${s.targetDevelopment}</p>
+                    </div></div>`;
+                }).join('')}
+            </div>
+
+            <h5 class="report-section-title">8. Detalle de Respuestas por Situacion</h5>
             <table class="table table-striped table-bordered">
                 <thead class="table-dark"><tr><th>Situacion</th><th>Respuesta</th><th>Estilo</th></tr></thead>
                 <tbody>${results.detailPerSituation.map(d => {
@@ -790,6 +932,13 @@ function renderLiderazgoResults(container) {
                     return `<tr><td>Situacion ${d.situation}</td><td><strong>Alt. ${d.answer}</strong></td><td><span class="style-tag" style="background:${s.color}">${d.style} - ${s.name}</span></td></tr>`;
                 }).join('')}</tbody>
             </table>
+
+            <div class="p-3 rounded mt-3" style="background:#f8fafc;border:1px solid var(--pp-border,#e2e8f0)">
+                <p class="small mb-1"><strong>Instrumento:</strong> Test de Liderazgo Situacional - IMCE 2015</p>
+                <p class="small mb-1"><strong>Modelo teorico:</strong> Liderazgo Situacional de Paul Hersey y Ken Blanchard</p>
+                <p class="small mb-1"><strong>Referencia:</strong> Blanchard, K. (2006). Autoliderazgo y el Lider Ejecutivo al Minuto. Grupo Editorial Norma.</p>
+                <p class="small text-muted fst-italic mb-0">Este reporte es un instrumento de autodiagnostico. No constituye una evaluacion clinica.</p>
+            </div>
         </div>
         <div class="modal-test-footer">
             <button class="btn btn-primary" onclick="downloadPDF()"><i class="fas fa-file-pdf"></i> Descargar PDF</button>
