@@ -284,6 +284,103 @@ document.addEventListener('keydown', (e) => {
     }
 });
 
+// ---- DESCARGA REPORTE PDF CONSOLIDADO ----
+async function downloadFullReport() {
+    const container = document.getElementById('pdf-report-container');
+    const content = document.getElementById('pdf-report-content');
+
+    // Copiar resumen IA al reporte
+    const aiArea = document.getElementById('ai-report-area');
+    const pdfAI = document.getElementById('pdf-ai-summary');
+    if (aiArea && pdfAI) {
+        const aiText = aiArea.innerHTML;
+        if (aiText && !aiText.includes('Haz clic en "Generar"')) {
+            pdfAI.innerHTML = aiText;
+        }
+    }
+
+    // Fecha
+    const dateEl = document.getElementById('pdf-report-date');
+    if (dateEl) dateEl.textContent = new Date().toLocaleDateString('es-CL', { year:'numeric', month:'long', day:'numeric' });
+
+    // Mostrar contenedor temporalmente para renderizar charts
+    container.style.display = 'block';
+    container.style.position = 'fixed';
+    container.style.left = '-9999px';
+
+    // Renderizar graficos en el PDF
+    await renderPDFCharts();
+
+    // Esperar a que los charts se rendericen
+    await new Promise(r => setTimeout(r, 500));
+
+    // Generar PDF
+    try {
+        await html2pdf().set({
+            margin: [8, 8, 8, 8],
+            filename: 'Reporte_Consolidado_Francisco_Guajardo.pdf',
+            image: { type: 'jpeg', quality: 0.95 },
+            html2canvas: { scale: 2, useCORS: true, logging: false },
+            jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
+            pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
+        }).from(content).save();
+    } catch (e) {
+        console.error('PDF generation error:', e);
+        alert('Error al generar el PDF. Intenta de nuevo.');
+    }
+
+    // Ocultar contenedor
+    container.style.display = 'none';
+    container.style.position = '';
+    container.style.left = '';
+}
+
+async function renderPDFCharts() {
+    // DISC Radar
+    const discCanvas = document.getElementById('pdf-chart-disc');
+    if (discCanvas) {
+        new Chart(discCanvas.getContext('2d'), {
+            type: 'radar',
+            data: {
+                labels: ['D - Dominancia', 'I - Influencia', 'S - Estabilidad', 'C - Cumplimiento'],
+                datasets: [{
+                    data: [8, 5, 10, 5],
+                    backgroundColor: 'rgba(99,102,241,0.15)',
+                    borderColor: '#6366f1', borderWidth: 2,
+                    pointBackgroundColor: ['#e74c3c','#f59e0b','#10b981','#6366f1'], pointRadius: 5
+                }]
+            },
+            options: {
+                responsive: true, animation: false,
+                scales: { r: { beginAtZero: true, ticks: { stepSize: 2 } } },
+                plugins: { legend: { display: false } }
+            }
+        });
+    }
+
+    // Liderazgo Bar
+    const lidCanvas = document.getElementById('pdf-chart-liderazgo');
+    if (lidCanvas) {
+        new Chart(lidCanvas.getContext('2d'), {
+            type: 'bar',
+            data: {
+                labels: ['E1 Dirigir', 'E2 Instruir', 'E3 Apoyar', 'E4 Delegar'],
+                datasets: [{
+                    data: [2, 4, 3, 3],
+                    backgroundColor: ['#e74c3ccc','#f59e0bcc','#10b981cc','#3498dbcc'],
+                    borderColor: ['#e74c3c','#f59e0b','#10b981','#3498db'],
+                    borderWidth: 2, borderRadius: 4
+                }]
+            },
+            options: {
+                responsive: true, animation: false,
+                plugins: { legend: { display: false } },
+                scales: { y: { beginAtZero: true, max: 12, ticks: { stepSize: 1 } } }
+            }
+        });
+    }
+}
+
 // ---- INIT ----
 document.addEventListener('DOMContentLoaded', () => {
     // Verificar sesion

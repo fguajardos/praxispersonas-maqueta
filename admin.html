@@ -345,6 +345,11 @@
                         </div>
                     </div>
 
+                    <div class="d-flex justify-content-center gap-2 mb-4">
+                        <button class="btn btn-dark" onclick="generateAIReport()"><i class="fas fa-robot"></i> Generar Resumen IA</button>
+                        <button class="btn btn-danger" onclick="downloadFullReport()"><i class="fas fa-file-pdf"></i> Descargar Reporte Completo PDF</button>
+                    </div>
+
                     <h5 class="text-center mb-3">Resultados</h5>
                     <ul class="nav nav-tabs mb-3" id="testResultsTabs">
                         <li class="nav-item"><a class="nav-link active" href="#" onclick="showTestResultTab('ia-summary')">Resumen Inteligencia Artificial</a></li>
@@ -357,8 +362,7 @@
                     <!-- Sub-tab: Resumen IA -->
                     <div class="test-result-tab active" id="tab-ia-summary">
                         <h6 class="text-center mb-3">Reporte generado con asistencia de IA</h6>
-                        <button class="btn btn-dark mb-3" onclick="generateAIReport()">Generar</button>
-                        <p class="text-muted small">Aca puedes generar un reporte consolidado de los test del candidato con apoyo de IA. Es un espacio editable, por lo que puedes escribir tus observaciones.</p>
+                        <p class="text-muted small">Aca puedes generar un reporte consolidado de los test del candidato con apoyo de IA. Es un espacio editable, por lo que puedes escribir tus observaciones. Puedes generar hasta dos veces el informe.</p>
                         <div class="ai-report-area" id="ai-report-area" contenteditable="true">
                             <p class="text-muted fst-italic">Haz clic en "Generar" para crear el reporte con IA...</p>
                         </div>
@@ -501,6 +505,102 @@
 
         </div><!-- /admin-content -->
     </div><!-- /main-wrapper -->
+
+    <!-- ===== REPORTE PDF OCULTO (para exportacion) ===== -->
+    <div id="pdf-report-container" style="display:none;">
+        <div id="pdf-report-content" style="font-family:Arial,sans-serif;color:#1e293b;font-size:13px;max-width:800px;margin:0 auto;">
+
+            <!-- Header del reporte -->
+            <div style="background:linear-gradient(135deg,#1e1b4b,#3730a3);color:#fff;padding:28px 32px;border-radius:12px 12px 0 0;display:flex;align-items:center;gap:18px;">
+                <img src="logo-iso.png" style="width:50px;height:50px;border-radius:12px;">
+                <div>
+                    <h2 style="margin:0;font-size:20px;">Reporte Consolidado de Evaluacion</h2>
+                    <p style="margin:4px 0 0;opacity:0.75;font-size:13px;">PraxisPersonas - Plataforma de Evaluacion Psicologica</p>
+                </div>
+            </div>
+
+            <!-- Datos del candidato -->
+            <div style="background:#f8fafc;padding:18px 32px;border-bottom:1px solid #e2e8f0;">
+                <table style="width:100%;font-size:13px;">
+                    <tr><td style="padding:4px 0;width:50%"><strong>Postulante:</strong> Francisco Guajardo Sempertegui</td><td><strong>Oportunidad:</strong> Tecnico en instalaciones electricas</td></tr>
+                    <tr><td style="padding:4px 0"><strong>Correo:</strong> fj.guajardos@gmail.com</td><td><strong>Empresa:</strong> Netlan</td></tr>
+                    <tr><td style="padding:4px 0"><strong>Fecha:</strong> 26-03-2026</td><td><strong>Etapa:</strong> Pre-seleccion</td></tr>
+                </table>
+            </div>
+
+            <!-- Resumen IA -->
+            <div style="padding:24px 32px;border-bottom:1px solid #e2e8f0;">
+                <h3 style="font-size:16px;color:#6366f1;border-bottom:3px solid #6366f1;display:inline-block;padding-bottom:6px;margin-bottom:14px;">1. Resumen Generado con IA</h3>
+                <div id="pdf-ai-summary" style="line-height:1.8;font-size:13px;">
+                    <p style="color:#94a3b8;font-style:italic;">El resumen con IA aun no ha sido generado. Haz clic en "Generar Resumen IA" primero.</p>
+                </div>
+            </div>
+
+            <!-- DISC -->
+            <div style="padding:24px 32px;border-bottom:1px solid #e2e8f0;">
+                <h3 style="font-size:16px;color:#6366f1;border-bottom:3px solid #6366f1;display:inline-block;padding-bottom:6px;margin-bottom:14px;">2. Test DISC - Perfil de Comportamiento</h3>
+                <table style="width:100%;border-collapse:collapse;margin-bottom:16px;">
+                    <tr>
+                        <td style="text-align:center;padding:14px;border:1px solid #e2e8f0;border-top:4px solid #e74c3c;"><strong>D - Dominancia</strong><br><span style="font-size:28px;font-weight:800;color:#e74c3c;">8</span></td>
+                        <td style="text-align:center;padding:14px;border:1px solid #e2e8f0;border-top:4px solid #f59e0b;"><strong>I - Influencia</strong><br><span style="font-size:28px;font-weight:800;color:#f59e0b;">5</span></td>
+                        <td style="text-align:center;padding:14px;border:1px solid #e2e8f0;border-top:4px solid #10b981;"><strong>S - Estabilidad</strong><br><span style="font-size:28px;font-weight:800;color:#10b981;">10</span></td>
+                        <td style="text-align:center;padding:14px;border:1px solid #e2e8f0;border-top:4px solid #6366f1;"><strong>C - Cumplimiento</strong><br><span style="font-size:28px;font-weight:800;color:#6366f1;">5</span></td>
+                    </tr>
+                </table>
+                <div style="max-width:350px;margin:0 auto;"><canvas id="pdf-chart-disc"></canvas></div>
+                <p style="margin-top:12px;"><strong>Perfil predominante: S (Estabilidad)</strong> - Paciente, leal, consistente. Valora la estabilidad, cooperacion y un ambiente armonioso.</p>
+            </div>
+
+            <!-- BARRAT -->
+            <div style="padding:24px 32px;border-bottom:1px solid #e2e8f0;">
+                <h3 style="font-size:16px;color:#6366f1;border-bottom:3px solid #6366f1;display:inline-block;padding-bottom:6px;margin-bottom:14px;">3. Test BARRAT - Escala de Impulsividad (BIS-11)</h3>
+                <table style="width:100%;border-collapse:collapse;margin-bottom:12px;">
+                    <tr>
+                        <td style="text-align:center;padding:14px;border:1px solid #e2e8f0;border-top:4px solid #e74c3c;width:33%"><strong>Impulsividad Cognitiva</strong><br><span style="font-size:28px;font-weight:800;color:#e74c3c;">12</span></td>
+                        <td style="text-align:center;padding:14px;border:1px solid #e2e8f0;border-top:4px solid #f59e0b;width:33%"><strong>Impulsividad Motora</strong><br><span style="font-size:28px;font-weight:800;color:#f59e0b;">18</span></td>
+                        <td style="text-align:center;padding:14px;border:1px solid #e2e8f0;border-top:4px solid #6366f1;width:33%"><strong>Impulsividad No Planificada</strong><br><span style="font-size:28px;font-weight:800;color:#6366f1;">15</span></td>
+                    </tr>
+                </table>
+                <p><strong>Total: 45</strong> (Rango normal). El evaluado muestra niveles de impulsividad dentro de parametros esperados.</p>
+            </div>
+
+            <!-- VALANTI -->
+            <div style="padding:24px 32px;border-bottom:1px solid #e2e8f0;">
+                <h3 style="font-size:16px;color:#6366f1;border-bottom:3px solid #6366f1;display:inline-block;padding-bottom:6px;margin-bottom:14px;">4. Test VALANTI - Valores y Antivalores Laborales</h3>
+                <table style="width:100%;border-collapse:collapse;margin-bottom:12px;">
+                    <tr>
+                        <td style="text-align:center;padding:14px;border:1px solid #e2e8f0;border-top:4px solid #10b981;width:25%"><strong>Valores</strong><br><span style="font-size:28px;font-weight:800;color:#10b981;">72</span></td>
+                        <td style="text-align:center;padding:14px;border:1px solid #e2e8f0;border-top:4px solid #e74c3c;width:25%"><strong>Antivalores</strong><br><span style="font-size:28px;font-weight:800;color:#e74c3c;">28</span></td>
+                        <td style="text-align:center;padding:14px;border:1px solid #e2e8f0;border-top:4px solid #6366f1;width:25%"><strong>Indice Etico</strong><br><span style="font-size:28px;font-weight:800;color:#6366f1;">Alto</span></td>
+                        <td style="text-align:center;padding:14px;border:1px solid #e2e8f0;border-top:4px solid #f59e0b;width:25%"><strong>Consistencia</strong><br><span style="font-size:28px;font-weight:800;color:#f59e0b;">85%</span></td>
+                    </tr>
+                </table>
+                <p><strong>Indice etico alto</strong> con 85% de consistencia. El evaluado demuestra un marco de valores solido y coherente en el ambito laboral.</p>
+            </div>
+
+            <!-- LIDERAZGO -->
+            <div style="padding:24px 32px;border-bottom:1px solid #e2e8f0;">
+                <h3 style="font-size:16px;color:#6366f1;border-bottom:3px solid #6366f1;display:inline-block;padding-bottom:6px;margin-bottom:14px;">5. Test Liderazgo Situacional - IMCE 2015</h3>
+                <table style="width:100%;border-collapse:collapse;margin-bottom:16px;">
+                    <tr>
+                        <td style="text-align:center;padding:14px;border:1px solid #e2e8f0;border-top:4px solid #e74c3c;"><strong>E1 - Dirigir</strong><br><span style="font-size:28px;font-weight:800;color:#e74c3c;">2</span></td>
+                        <td style="text-align:center;padding:14px;border:1px solid #e2e8f0;border-top:4px solid #f59e0b;"><strong>E2 - Instruir</strong><br><span style="font-size:28px;font-weight:800;color:#f59e0b;">4</span></td>
+                        <td style="text-align:center;padding:14px;border:1px solid #e2e8f0;border-top:4px solid #10b981;"><strong>E3 - Apoyar</strong><br><span style="font-size:28px;font-weight:800;color:#10b981;">3</span></td>
+                        <td style="text-align:center;padding:14px;border:1px solid #e2e8f0;border-top:4px solid #3498db;"><strong>E4 - Delegar</strong><br><span style="font-size:28px;font-weight:800;color:#3498db;">3</span></td>
+                    </tr>
+                </table>
+                <div style="max-width:400px;margin:0 auto;"><canvas id="pdf-chart-liderazgo"></canvas></div>
+                <p style="margin-top:12px;"><strong>Estilo predominante: E2 (Instruir)</strong> - Alta tarea, alta relacion. El lider define roles y tareas pero busca ideas y sugerencias del colaborador. Adaptabilidad: 28/36 (Moderada).</p>
+            </div>
+
+            <!-- Footer -->
+            <div style="padding:18px 32px;background:#f8fafc;border-radius:0 0 12px 12px;font-size:12px;color:#94a3b8;">
+                <p style="margin:0 0 4px;"><strong>Generado por:</strong> PraxisPersonas - Plataforma de Evaluacion Psicologica</p>
+                <p style="margin:0 0 4px;"><strong>Fecha del reporte:</strong> <span id="pdf-report-date"></span></p>
+                <p style="margin:0;font-style:italic;">Este reporte fue generado con asistencia de Inteligencia Artificial. Los resultados son orientativos y deben ser interpretados por un profesional competente.</p>
+            </div>
+        </div>
+    </div>
 
     <footer class="admin-footer">
         <span>2026 &copy; Praxis.</span>
