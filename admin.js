@@ -285,16 +285,24 @@ document.addEventListener('keydown', (e) => {
 });
 
 // ---- DESCARGA REPORTE PDF CONSOLIDADO ----
+let pdfChartDisc = null;
+let pdfChartLid = null;
+
 async function downloadFullReport() {
     const container = document.getElementById('pdf-report-container');
     const content = document.getElementById('pdf-report-content');
+
+    if (!container || !content) {
+        alert('Error: no se encontro el contenedor del reporte.');
+        return;
+    }
 
     // Copiar resumen IA al reporte
     const aiArea = document.getElementById('ai-report-area');
     const pdfAI = document.getElementById('pdf-ai-summary');
     if (aiArea && pdfAI) {
         const aiText = aiArea.innerHTML;
-        if (aiText && !aiText.includes('Haz clic en "Generar"')) {
+        if (aiText && !aiText.includes('Haz clic en') && !aiText.includes('fst-italic')) {
             pdfAI.innerHTML = aiText;
         }
     }
@@ -303,43 +311,72 @@ async function downloadFullReport() {
     const dateEl = document.getElementById('pdf-report-date');
     if (dateEl) dateEl.textContent = new Date().toLocaleDateString('es-CL', { year:'numeric', month:'long', day:'numeric' });
 
-    // Mostrar contenedor temporalmente para renderizar charts
+    // Mostrar contenedor temporalmente fuera de pantalla
     container.style.display = 'block';
     container.style.position = 'fixed';
     container.style.left = '-9999px';
+    container.style.top = '0';
+    container.style.width = '800px';
+    container.style.zIndex = '-1';
 
-    // Renderizar graficos en el PDF
-    await renderPDFCharts();
+    // Resetear canvas para evitar error de reutilizacion
+    resetPDFCanvases();
+
+    // Esperar al DOM
+    await new Promise(r => setTimeout(r, 200));
+
+    // Renderizar graficos
+    renderPDFCharts();
 
     // Esperar a que los charts se rendericen
-    await new Promise(r => setTimeout(r, 500));
+    await new Promise(r => setTimeout(r, 600));
 
     // Generar PDF
     try {
         await html2pdf().set({
-            margin: [8, 8, 8, 8],
+            margin: [8, 10, 8, 10],
             filename: 'Reporte_Consolidado_Francisco_Guajardo.pdf',
             image: { type: 'jpeg', quality: 0.95 },
-            html2canvas: { scale: 2, useCORS: true, logging: false },
+            html2canvas: { scale: 2, useCORS: true, logging: false, windowWidth: 800 },
             jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
-            pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
+            pagebreak: { mode: ['css', 'legacy'], avoid: ['table', 'tr'] }
         }).from(content).save();
     } catch (e) {
         console.error('PDF generation error:', e);
-        alert('Error al generar el PDF. Intenta de nuevo.');
+        alert('Error al generar el PDF: ' + e.message);
     }
 
     // Ocultar contenedor
     container.style.display = 'none';
     container.style.position = '';
     container.style.left = '';
+    container.style.top = '';
+    container.style.width = '';
+    container.style.zIndex = '';
 }
 
-async function renderPDFCharts() {
+function resetPDFCanvases() {
+    // Destruir charts anteriores si existen
+    if (pdfChartDisc) { pdfChartDisc.destroy(); pdfChartDisc = null; }
+    if (pdfChartLid) { pdfChartLid.destroy(); pdfChartLid = null; }
+
+    // Reemplazar canvas para evitar "Canvas is already in use"
+    ['pdf-chart-disc', 'pdf-chart-liderazgo'].forEach(id => {
+        const old = document.getElementById(id);
+        if (old) {
+            const parent = old.parentNode;
+            const newCanvas = document.createElement('canvas');
+            newCanvas.id = id;
+            parent.replaceChild(newCanvas, old);
+        }
+    });
+}
+
+function renderPDFCharts() {
     // DISC Radar
     const discCanvas = document.getElementById('pdf-chart-disc');
     if (discCanvas) {
-        new Chart(discCanvas.getContext('2d'), {
+        pdfChartDisc = new Chart(discCanvas.getContext('2d'), {
             type: 'radar',
             data: {
                 labels: ['D - Dominancia', 'I - Influencia', 'S - Estabilidad', 'C - Cumplimiento'],
@@ -351,7 +388,7 @@ async function renderPDFCharts() {
                 }]
             },
             options: {
-                responsive: true, animation: false,
+                responsive: false, animation: false,
                 scales: { r: { beginAtZero: true, ticks: { stepSize: 2 } } },
                 plugins: { legend: { display: false } }
             }
@@ -361,7 +398,7 @@ async function renderPDFCharts() {
     // Liderazgo Bar
     const lidCanvas = document.getElementById('pdf-chart-liderazgo');
     if (lidCanvas) {
-        new Chart(lidCanvas.getContext('2d'), {
+        pdfChartLid = new Chart(lidCanvas.getContext('2d'), {
             type: 'bar',
             data: {
                 labels: ['E1 Dirigir', 'E2 Instruir', 'E3 Apoyar', 'E4 Delegar'],
@@ -373,7 +410,7 @@ async function renderPDFCharts() {
                 }]
             },
             options: {
-                responsive: true, animation: false,
+                responsive: false, animation: false,
                 plugins: { legend: { display: false } },
                 scales: { y: { beginAtZero: true, max: 12, ticks: { stepSize: 1 } } }
             }
