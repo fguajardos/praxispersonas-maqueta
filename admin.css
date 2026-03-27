@@ -214,6 +214,7 @@ body { font-family:'Inter',sans-serif; background:var(--bg); color:var(--text); 
 .score-label { font-size:12px; font-weight:700; margin-bottom:6px; }
 .score-value { font-size:32px; font-weight:800; line-height:1; }
 .chart-container { max-width:500px; margin:0 auto; }
+.chart-wrapper-sm { max-width:280px; max-height:280px; margin:0 auto; }
 
 /* Buttons */
 .btn-purple { background:#6366f1; color:#fff; border:none; }
